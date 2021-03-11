@@ -21,18 +21,8 @@ namespace replyCode
             for (int i = 0; i < 6; i++)
             {
                 for (int j = 0; j < 3; j++)
-                {
                     Console.WriteLine("Inserisci valore:");
-                    m[i,j]=Console.Read();
-                }
-            }
-        }
-
-        public void PrintMatrix()
-        {
-            foreach(int i in this.m)
-            {
-                Console.WriteLine($"{i}");
+                Console.Read();
             }
         }
     }
