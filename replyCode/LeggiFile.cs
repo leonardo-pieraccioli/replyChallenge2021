@@ -69,10 +69,10 @@ namespace replyCode
         }
 
         public void scriviFile(List<Antenna> antenne){
-            System.IO.StreamWriter sw = new StreamWriter("C:/Users/leona/source/repos/replyCode/replyCode/uscita.txt");
-            System.Console.WriteLine(antenne.Count());
+            StreamWriter sw = File.CreateText(@"C:/Users/leona/source/repos/replyCode/replyCode/uscita.txt");
+            sw.WriteLine(antenne.Count());
             foreach(Antenna a in antenne){
-                System.Console.WriteLine(a.getID()+" "+a.getX()+" "+a.getY());
+                sw.WriteLine(a.getID()+" "+a.getX()+" "+a.getY());
             }
         }
     }
