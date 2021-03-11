@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace replyCode
 {
-    class Program {
-        static void Main(string[] args)
+   
+    class Prove
+    {
+        private List<int> list = new List<int>();
+        public Prove(string nomeFile)
         {
-           
-
 
         }
-
     }
 }
