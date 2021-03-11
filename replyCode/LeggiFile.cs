@@ -66,5 +66,13 @@ namespace replyCode
             System.Console.WriteLine(a.getID()+' '+a.getDistMax()+' '+a.getV());
             }
         }
+
+        public void scriviFile(List<Antenna> antenne){
+            StreamWriter sw= new StreamWriter("C:\Users\francesca\Source\Repos\leonardo-pieraccioli\replyCode\replyCode");
+            sw.WriteLine(antenne.Count());
+            foreach(Antenna a in antenne){
+                sw.WriteLine(a.getID()+' '+a.getX()+' '+a.getY());
+            }
+        }
     }
 }
