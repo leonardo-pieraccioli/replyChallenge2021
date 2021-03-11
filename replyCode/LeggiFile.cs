@@ -8,8 +8,8 @@ namespace replyCode
 {
     class LeggiFile
     {
-        private List<Edificio> edifici = new List<>;
-        private List<Antenna> antenne = new List<>;
+        private List<Edificio> edifici = new List<Edificio>();
+        private List<Antenna> antenne = new List<Edificio>();
         private int numB; 
         private int numA;
         private int reward; 
@@ -17,7 +17,7 @@ namespace replyCode
         private int y; 
 
 
-        public static void leggiFile(List<Edificio> edif, List<Antenna> ant, int rew, int xW, int yH){
+        public static void leggiFile(){
             int i;
             System.IO.StreamReader file= new System.IO.StreamReader(@"C:\Users\francesca\Source\Repos\leonardo-pieraccioli\replyCode\replyCode\source.txt")
             String riga; 
@@ -25,9 +25,7 @@ namespace replyCode
             riga= file.ReadLine(); 
             valori=riga.Split(' ');
             x=Int32.Parse(valori[0]);
-            xW=x;
             y=Int32.Parse(valori[1]);
-            yH=y;
             riga= file.ReadLine();
             valori=riga.Split(' ');
             numB=Int32.Parse(valori[0]);
@@ -46,8 +44,14 @@ namespace replyCode
                 antenne.Add(new Antenna(i, Int32.Parse(valori[0]),Int32.Parse(valori[1]));
             }
             file.Close();
-            edif=edifici.Sort();
-            ant=antenne.Sort();
+            edifici.Sort();
+            antenne.Sort();
+            Program.edifici=edifici;
+            Program.antenne=antenne;
+            Program.reward=reward;
+            Program.righe=y;
+            Program.colonne=x;
+
         }
         
         public static void stampaEdifici(){
