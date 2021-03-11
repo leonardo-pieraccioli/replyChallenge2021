@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace replyCode
-{
+{ 
     class Program {
         static void Main(string[] args)
         {
+            Prove p = new Prove();
+            p.GetMatrix();
         }
 
     }
