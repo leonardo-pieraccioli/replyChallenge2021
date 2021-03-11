@@ -75,7 +75,7 @@ namespace replyCode
 
         public int raggiunge(Edificio e)
         {
-            int dist = calcolaDistanza(e, this);
+            int dist = Program.calcolaDistanza(e, this);
             if (dist <= this.distMax)
                 return 1;
             else

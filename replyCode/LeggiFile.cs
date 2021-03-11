@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,7 +69,7 @@ namespace replyCode
         }
 
         public void scriviFile(List<Antenna> antenne){
-            StreamWriter sw= new StreamWriter("C:\Users\francesca\Source\Repos\leonardo-pieraccioli\replyCode\replyCode");
+            System.IO.StreamWriter sw = new StreamWriter("C:/Users/francesca/Source/Repos/leonardo-pieraccioli/replyCode/replyCode");
             sw.WriteLine(antenne.Count());
             foreach(Antenna a in antenne){
                 sw.WriteLine(a.getID()+' '+a.getX()+' '+a.getY());

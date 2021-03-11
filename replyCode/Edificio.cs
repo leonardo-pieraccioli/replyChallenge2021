@@ -14,6 +14,7 @@ namespace replyCode
         private int pesoConnessione;
         private Antenna a;
 
+        public Edificio() { }
         public Edificio(int x, int y, int pesoLatenza, int pesoConnessione)
         {
             this.x = x;

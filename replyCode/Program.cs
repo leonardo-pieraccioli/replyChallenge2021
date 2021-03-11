@@ -25,6 +25,7 @@ namespace replyCode
 
         public static List<Edificio> edifici = new List<Edificio>();
         public static List<Antenna> antenne = new List<Antenna>();
+        public static List<Edificio> edificiScoperti;
         public static int reward;
         public static int righe, colonne;
 
@@ -36,34 +37,53 @@ namespace replyCode
             if (edifici.Count() < antenne.Count())
                 antenne.RemoveRange(edifici.Count(), antenne.Count() - edifici.Count());
             
-            posizionaAntenne();
-            LeggiFile.componiOutput(Edifici, antenne);
+            Program.posizionaAntenne();
+
+            lettoreFile.scriviFile(antenne);
         }
 
-        public void posizionaAntenne()
+        public static void posizionaAntenne()
         {
-            int nTentativi = 0;
-
             //posiziona antenne su edifici ordinati in base alla velocità 
             for(int i=0; i<Math.Min(edifici.Count(), edifici.Count()); i++)
             {
-                edifici[i].setAntenna(antenne[i]);    
+                edifici[i].setAntenna(antenne[i]);
+                antenne[i].setX(edifici[i].getX());
+                antenne[i].setY(edifici[i].getY());
+                antenne[i].setEdificio(edifici[i]);
             }
 
-            //terminazione quando tutti gli edifici sono coperti e nTentativi è maggiore di MAX_TENTATIVI
-            while (nTentativi <= MAX_TENTATIVI && !edificiAssegnati())
+            //lista di edifici senza antenna
+            if (edifici.Count() > antenne.Count())
             {
-                //verifica di possibile avvicinamento di alcune antenne in cui si usa nTentativi 
-                foreach(Antenna a in antenne)
-                {
-                    //trovare edificio più vicino escluso quello assegnato
-
-                    //avvicinamento
-
-                }
-                //calcola soluzione, aggiorna migliore 
+                edificiScoperti = new List<Edificio>(edifici.GetRange(antenne.Count(), edifici.Count() - 1));
             }
 
+            //verifica di possibile avvicinamento di alcune antenne in cui si usa nTentativi 
+            foreach(Antenna a in antenne)
+            {
+                //trovare edificio scoperto più vicino escluso quello assegnato
+                int distanzaMin = MAX_DISTANZA + 1;
+                Edificio eVicino = new Edificio() ;
+                int d;
+                foreach (Edificio e in edificiScoperti)
+                {
+                    if ((d = calcolaDistanza(e, a)) < distanzaMin) {  
+                        distanzaMin = d;
+                        eVicino = e;
+                    }
+                }
+
+                //avvicinamento
+                if((d = calcolaDistanzaE(a.getEdificio(), eVicino)) < a.getDistMax() * 2)
+                {
+                    Edificio e = a.getEdificio();
+                    //migliorare con quadrato migliore
+                    a.setX(Math.Min(eVicino.getX(), e.getX()) + Math.Abs(eVicino.getX() - e.getX()));
+                    a.setY(Math.Min(eVicino.getY(), e.getY()) + Math.Abs(eVicino.getY() - e.getY()));
+                }
+            } 
+ 
         }
 
         public int calcolaScore(Edificio e, Antenna a)
@@ -73,7 +93,11 @@ namespace replyCode
         }
         public static int calcolaDistanza(Edificio e, Antenna a)
         {
-            return (Math.Abs(e.getX() - a.getX() + Math.Abs(e.getY() - a.getY()));
+            return (Math.Abs(e.getX() - a.getX() + Math.Abs(e.getY() - a.getY())));
+        }
+        public static int calcolaDistanzaE(Edificio e1, Edificio e2)
+        {
+            return (Math.Abs(e1.getX() - e2.getX() + Math.Abs(e1.getY() - e2.getY())));
         }
 
         public bool edificiAssegnati()
