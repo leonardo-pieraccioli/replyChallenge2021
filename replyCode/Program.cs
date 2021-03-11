@@ -34,6 +34,9 @@ namespace replyCode
             LeggiFile lettoreFile = new LeggiFile();
             lettoreFile.leggiFile();
 
+            lettoreFile.stampaEdifici();
+            lettoreFile.stampaAntenne();
+
             if (edifici.Count() < antenne.Count())
                 antenne.RemoveRange(edifici.Count(), antenne.Count() - edifici.Count());
             
@@ -45,7 +48,7 @@ namespace replyCode
         public static void posizionaAntenne()
         {
             //posiziona antenne su edifici ordinati in base alla velocità 
-            for(int i=0; i<Math.Min(edifici.Count(), edifici.Count()); i++)
+            for(int i=0; i<Math.Min(edifici.Count(), antenne.Count()); i++)
             {
                 edifici[i].setAntenna(antenne[i]);
                 antenne[i].setX(edifici[i].getX());
@@ -56,7 +59,7 @@ namespace replyCode
             //lista di edifici senza antenna
             if (edifici.Count() > antenne.Count())
             {
-                edificiScoperti = new List<Edificio>(edifici.GetRange(antenne.Count(), edifici.Count() - 1));
+                edificiScoperti = new List<Edificio>(edifici.GetRange(antenne.Count(), edifici.Count() - antenne.Count()));
             }
 
             //verifica di possibile avvicinamento di alcune antenne in cui si usa nTentativi 

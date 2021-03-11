@@ -25,7 +25,7 @@ namespace replyCode
 
         public int CompareTo(Antenna other)
         {
-            return this.v.CompareTo(other.v);
+            return other.v.CompareTo(this.v);
         }
 
         public void setEdificio(Edificio e)

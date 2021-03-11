@@ -20,7 +20,7 @@ namespace replyCode
 
         public void leggiFile(){
             int i;
-            System.IO.StreamReader file = new System.IO.StreamReader(@"C:\Users\francesca\Source\Repos\leonardo-pieraccioli\replyCode\replyCode\source.txt");
+            System.IO.StreamReader file = new System.IO.StreamReader(@"C:/Users/leona/source/repos/replyCode/replyCode/source.txt");
             string riga; 
             string[] valori; 
             riga= file.ReadLine(); 
@@ -57,22 +57,22 @@ namespace replyCode
         public void stampaEdifici(){
             System.Console.WriteLine("ci sono {0} edifici\n", numB);
             foreach(Edificio e in edifici){
-                System.Console.WriteLine(e.getX()+' '+e.getY()+' '+e.getPesoLatenza()+' '+e.getPesoConnessione());
+                System.Console.WriteLine(e.getX()+ " " + e.getY()+ " " + e.getPesoLatenza()+ " " + e.getPesoConnessione());
             }
         }
 
         public void stampaAntenne(){
             System.Console.WriteLine("ci sono {0} antenne\n", numA);
             foreach(Antenna a in antenne){
-            System.Console.WriteLine(a.getID()+' '+a.getDistMax()+' '+a.getV());
+            System.Console.WriteLine(a.getID()+" "+a.getDistMax()+" "+a.getV());
             }
         }
 
         public void scriviFile(List<Antenna> antenne){
-            System.IO.StreamWriter sw = new StreamWriter("C:/Users/francesca/Source/Repos/leonardo-pieraccioli/replyCode/replyCode");
-            sw.WriteLine(antenne.Count());
+            System.IO.StreamWriter sw = new StreamWriter("C:/Users/leona/source/repos/replyCode/replyCode/uscita.txt");
+            System.Console.WriteLine(antenne.Count());
             foreach(Antenna a in antenne){
-                sw.WriteLine(a.getID()+' '+a.getX()+' '+a.getY());
+                System.Console.WriteLine(a.getID()+" "+a.getX()+" "+a.getY());
             }
         }
     }

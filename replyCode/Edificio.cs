@@ -26,7 +26,7 @@ namespace replyCode
 
         public int CompareTo(Edificio other)
         {
-            return this.pesoConnessione.CompareTo(other.pesoConnessione);
+            return other.pesoConnessione.CompareTo(this.pesoConnessione);
         }
 
         public int getX()
