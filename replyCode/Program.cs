@@ -11,6 +11,7 @@ namespace replyCode
         {
             Prove p = new Prove();
             p.GetMatrix();
+            p.PrintMatrix();
         }
 
     }
