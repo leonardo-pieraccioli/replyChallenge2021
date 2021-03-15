@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 
 namespace replyCode
-{ 
-
-        
+{
     class Program {
         public const int MIN_DIM = 10;
         public const int MAX_DIM = 6000;
@@ -28,21 +27,32 @@ namespace replyCode
         public static List<Edificio> edificiScoperti;
         public static int reward;
         public static int righe, colonne;
+        public static int[,] mappa;
+
+        static string strout = "uscita_a.txt";
 
         static void Main(string[] args)
         {
             LeggiFile lettoreFile = new LeggiFile();
             lettoreFile.leggiFile();
-
-            lettoreFile.stampaEdifici();
-            lettoreFile.stampaAntenne();
-
+            mappa = new int[colonne, righe];
+            for (int hi = 0; hi < colonne; hi++)
+                for (int j = 0; j < righe; j++)
+                    mappa[hi, j] = 0;
             if (edifici.Count() < antenne.Count())
                 antenne.RemoveRange(edifici.Count(), antenne.Count() - edifici.Count());
             
             Program.posizionaAntenne();
+            //FileStream stream = new FileStream("C:\\Users\\leona\\source\\repos\\replyCode\\replyCode\\uscita.txt", FileMode.OpenOrCreate);
+            using (TextWriter sw = new StreamWriter("C:\\Users\\leona\\source\\repos\\replyCode\\replyCode\\uscita_f.txt"))
+            {
 
-            lettoreFile.scriviFile(antenne);
+                sw.WriteLine(antenne.Count());
+                foreach (Antenna a in antenne)
+                {
+                    sw.WriteLine(a.getID() + " " + a.getX() + " " + a.getY());
+                }
+            }
         }
 
         public static void posizionaAntenne()
@@ -56,21 +66,27 @@ namespace replyCode
                 antenne[i].setEdificio(edifici[i]);
             }
 
+            if (edifici.Count() == antenne.Count())
+                return;
             //lista di edifici senza antenna
             if (edifici.Count() > antenne.Count())
             {
                 edificiScoperti = new List<Edificio>(edifici.GetRange(antenne.Count(), edifici.Count() - antenne.Count()));
+                System.Console.WriteLine("Stampa edifici scoperti");
             }
-
+            int distanzaMin = MAX_DISTANZA + 1;
+            Edificio eVicino = new Edificio();
+            int d;
+            int newX;
+            int newY;
             //verifica di possibile avvicinamento di alcune antenne in cui si usa nTentativi 
-            foreach(Antenna a in antenne)
+            foreach (Antenna a in antenne)
             {
                 //trovare edificio scoperto più vicino escluso quello assegnato
-                int distanzaMin = MAX_DISTANZA + 1;
-                Edificio eVicino = new Edificio() ;
-                int d;
+
                 foreach (Edificio e in edificiScoperti)
                 {
+                    distanzaMin = MAX_DISTANZA + 1;
                     if ((d = calcolaDistanza(e, a)) < distanzaMin) {  
                         distanzaMin = d;
                         eVicino = e;
@@ -82,26 +98,30 @@ namespace replyCode
                 {
                     Edificio e = a.getEdificio();
                     //migliorare con quadrato migliore
-                    a.setX(Math.Min(eVicino.getX(), e.getX()) + Math.Abs(eVicino.getX() - e.getX()));
-                    a.setY(Math.Min(eVicino.getY(), e.getY()) + Math.Abs(eVicino.getY() - e.getY()));
+                    newX = Math.Min(eVicino.getX(), e.getX()) + Math.Abs(eVicino.getX() - e.getX());
+                    newY = Math.Min(eVicino.getY(), e.getY()) + Math.Abs(eVicino.getY() - e.getY());
+                   
+                    if (mappa[newX, newY] == 0)
+                    {
+                        a.setX(newX);
+                        a.setY(newY);
+                        mappa[newX, newY] = 1;
+                    }
+                    
                 }
-            } 
- 
+            }
+
+            System.Console.WriteLine("Stampa finale antenne");
+            foreach (Antenna a in antenne)
+            {
+                System.Console.WriteLine(a.getID() + " " + a.getX() + " " + a.getY());
+            }
+
         }
 
-        public int calcolaScore(Edificio e, Antenna a)
-        {
-            //attenzione ai nomi dei getters 
-            return e.getPesoConnessione() * a.getV() - e.getPesoLatenza() * calcolaDistanza(e, a);
-        }
-        public static int calcolaDistanza(Edificio e, Antenna a)
-        {
-            return (Math.Abs(e.getX() - a.getX() + Math.Abs(e.getY() - a.getY())));
-        }
-        public static int calcolaDistanzaE(Edificio e1, Edificio e2)
-        {
-            return (Math.Abs(e1.getX() - e2.getX() + Math.Abs(e1.getY() - e2.getY())));
-        }
+        public int calcolaScore(Edificio e, Antenna a) {return e.getPesoConnessione() * a.getV() - e.getPesoLatenza() * calcolaDistanza(e, a);}
+        public static int calcolaDistanza(Edificio e, Antenna a){return (Math.Abs(e.getX() - a.getX() + Math.Abs(e.getY() - a.getY())));}
+        public static int calcolaDistanzaE(Edificio e1, Edificio e2){return (Math.Abs(e1.getX() - e2.getX() + Math.Abs(e1.getY() - e2.getY())));}
 
         public bool edificiAssegnati()
         {

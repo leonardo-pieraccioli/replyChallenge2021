@@ -8,6 +8,10 @@ namespace replyCode
 {
     class Edificio : IComparable<Edificio>
     {
+        public const int MAX_EDIFICI = 350000;
+        public const int MAX_PESO_LATENZA = 100;
+        public const int MAX_PESO_CONNESSIONE = 100;
+
         private int x;
         private int y;
         private int pesoLatenza;

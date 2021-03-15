@@ -8,6 +8,10 @@ namespace replyCode
 {
     class Antenna : IComparable<Antenna>
     {
+        public const int MAX_ANTENNE = 60000;
+        public const int MAX_DISTANZA = 6000;
+        public const int MAX_VEL_CONNESSIONE = 10000;
+
         private int id;
         private int x;
         private int y;
